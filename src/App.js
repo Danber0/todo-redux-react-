@@ -5,15 +5,18 @@ import { AddField } from './components/AddField';
 import { Item } from './components/Item';
 
 const reducer = (state, action) => {
-  if (action.type === 'ADD_TASK') {
-    return [
-      ...state,
-      {
-        id: state.length + 1,
-        text: action.payload.text,
-        complited: action.payload.checked,
-      },
-    ];
+  switch (action.type) {
+    case 'ADD_TASK':
+      return [
+        ...state,
+        {
+          id: state.length,
+          text: action.payload.text,
+          complited: action.payload.checked,
+        },
+      ];
+    case 'REMOVE_TASK':
+      return state.filter((elem) => elem.id !== action.payload);
   }
   return state;
 };
@@ -21,12 +24,12 @@ const reducer = (state, action) => {
 function App() {
   const [state, dispatch] = React.useReducer(reducer, [
     {
-      id: 1,
+      id: 0,
       text: 'Первая задача',
       complited: false,
     },
     {
-      id: 2,
+      id: 1,
       text: 'Вторая задача',
       complited: true,
     },
@@ -40,6 +43,15 @@ function App() {
         checked,
       },
     });
+  };
+
+  const removeTaks = (id) => {
+    if (window.confirm('ты реально этого хочешь?!')) {
+      dispatch({
+        type: 'REMOVE_TASK',
+        payload: id,
+      });
+    }
   };
 
   console.log(state);
@@ -60,7 +72,12 @@ function App() {
         <Divider />
         <List>
           {state.map((obj) => (
-            <Item key={obj.id} text={obj.text} complited={obj.complited} />
+            <Item
+              key={obj.id}
+              text={obj.text}
+              complited={obj.complited}
+              removeTaks={() => removeTaks(obj.id)}
+            />
           ))}
         </List>
         <Divider />
