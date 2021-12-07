@@ -7,16 +7,18 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 export const AddField = ({ onAddTaks }) => {
   const [inputTextTask, setInputTextTask] = React.useState('');
-  const [checkbox, setCheckbox] = React.useState(false);
+  const [checkbox, setCheckBox] = React.useState(false);
 
-  const chekBox = () => {
-    setCheckbox(!checkbox);
+  const addTask = () => {
+    onAddTaks(inputTextTask, checkbox);
+    setInputTextTask('');
+    setCheckBox(false);
   };
 
   return (
     <div className="field">
       <Checkbox
-        onClick={chekBox}
+        onChange={(event) => setCheckBox(event.target.checked)}
         checked={checkbox}
         className="checkbox"
         icon={<RadioButtonUncheckedIcon />}
@@ -29,7 +31,7 @@ export const AddField = ({ onAddTaks }) => {
         variant="standard"
         fullWidth
       />
-      <Button onClick={() => onAddTaks(inputTextTask, checkbox, setInputTextTask, setCheckbox)}>
+      <Button onClick={addTask}>
         <AddIcon />
       </Button>
     </div>

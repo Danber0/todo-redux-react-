@@ -32,17 +32,17 @@ function App() {
     },
   ]);
 
-  const addTaks = (inputTextTask, checkbox, setInputTextTask, setCheckbox) => {
-    setInputTextTask('');
-    setCheckbox(false);
+  const addTaks = (text, checked) => {
     dispatch({
       type: 'ADD_TASK',
       payload: {
-        text: inputTextTask,
-        checked: checkbox,
+        text,
+        checked,
       },
     });
   };
+
+  console.log(state);
 
   return (
     <div className="App">
